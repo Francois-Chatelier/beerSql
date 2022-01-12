@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const { findOneByEmail } = require("../models/users");
 
 const getPassword = (req, res, next) => {
@@ -17,6 +19,22 @@ const getPassword = (req, res, next) => {
     });
 };
 
+const checkAuth = (req, res, next) => {
+  jwt.verify(
+    req.cookies.user_token,
+    process.env.PRIVATE_KEY,
+    (err, decoded) => {
+      console.log("Helllllloooo");
+      if (err) {
+        res.status(401).send("You do not have correct rights");
+      } else {
+        next();
+      }
+    }
+  );
+};
+
 module.exports = {
   getPassword,
+  checkAuth,
 };

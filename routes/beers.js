@@ -1,7 +1,8 @@
 const beersRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const { JsonWebTokenError } = require("jsonwebtoken");
-const { findMany, findOne, createOne } = require("../models/beers");
+const { findMany, findOne, createOne, updateOne } = require("../models/beers");
+const { checkAuth } = require("../middleware/user");
 
 beersRouter.get("/", (req, res) => {
   const { text, minph } = req.query;
@@ -17,22 +18,12 @@ beersRouter.get("/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-beersRouter.post("/", (req, res) => {
-  jwt.verify(
-    req.cookies.user_token,
-    process.env.PRIVATE_KEY,
-    (err, decoded) => {
-      console.log("Helllllloooo");
-      if (err) {
-        res.status(401).send("You do not have correct rights");
-      } else {
-        res.status(201).json(createOne());
-      }
-    }
-  );
-  // createOne(req.params.id)
-  //   .then((result) => res.status(201).json(result))
-  //   .catch((err) => console.log(err));
+beersRouter.post("/", checkAuth, (req, res) => {
+  res.status(201).json(createOne());
+});
+
+beersRouter.put("/", checkAuth, (req, res) => {
+  res.status(201).json(updateOne());
 });
 
 module.exports = beersRouter;

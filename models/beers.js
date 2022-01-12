@@ -30,7 +30,11 @@ const findOne = (id) => {
 };
 
 const createOne = (body) => {
-  return { msg: true };
+  return { msg: "Beer created" };
+};
+
+const updateOne = (body) => {
+  return { msg: "Beer updated" };
 };
 
 // filtrer les bières
@@ -39,4 +43,5 @@ module.exports = {
   findMany,
   findOne,
   createOne,
+  updateOne,
 };
