@@ -1,4 +1,3 @@
-const { query } = require("../db-config");
 const connection = require("../db-config");
 
 const db = connection.promise();
@@ -30,9 +29,14 @@ const findOne = (id) => {
     .then((result) => result[0][0]); // [0] => récupère la donnée // [0] récupère que le 1er élément que l'on veut
 };
 
+const createOne = (body) => {
+  return { msg: true };
+};
+
 // filtrer les bières
 
 module.exports = {
   findMany,
   findOne,
+  createOne,
 };
